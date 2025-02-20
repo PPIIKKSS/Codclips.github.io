@@ -5,104 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Call of Duty Video Vault</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;600;700&display=swap');
-
         body {
-            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: linear-gradient(135deg, #0d0d0d 0%, #1a1a1a 100%);
+            font-family: Arial, sans-serif;
+            background: #0d0d0d;
             color: #fff;
             margin: 0;
-            padding: 0;
-            overflow-x: hidden;
-        }
-
-        /* Header */
-        header {
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(15px);
-            padding: 15px 0;
-        }
-        nav {
-            max-width: 1300px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 30px;
-        }
-        .logo {
-            font-size: 24px;
-            font-weight: 700;
-            color: #ff3c00;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-        nav a {
-            color: #d1d1d6;
-            text-decoration: none;
-            font-size: 16px;
-            margin-left: 30px;
-            transition: color 0.3s;
-        }
-        nav a:hover {
-            color: #ff3c00;
-        }
-
-        /* Canvas for Particles */
-        #particleCanvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
-            z-index: -1;
-            opacity: 0.2;
-        }
-
-        /* Main */
-        main {
-            max-width: 1300px;
-            margin: 120px auto 80px;
-            padding: 0 30px;
+            padding: 20px;
             text-align: center;
         }
         h1 {
-            font-size: 56px;
-            font-weight: 700;
-            background: linear-gradient(90deg, #ff3c00, #ff8c00);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 15px;
+            font-size: 40px;
+            color: #ff3c00;
         }
-        p.subtitle {
-            font-size: 22px;
-            color: #86868b;
-            max-width: 600px;
-            margin: 0 auto 50px;
+        #userInfo {
+            font-size: 18px;
+            color: #d1d1d6;
+            margin: 10px 0;
         }
-
-        /* Upload Section */
         #uploadSection {
-            position: relative;
-            padding: 40px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            margin-bottom: 60px;
-        }
-        #dropZone {
-            border: 2px dashed #ff3c00;
-            border-radius: 15px;
-            padding: 60px;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-        #dropZone.dragover {
-            background: rgba(255, 60, 0, 0.1);
+            display: none;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            margin: 20px auto;
+            max-width: 600px;
         }
         #videoInput {
             display: none;
@@ -110,217 +36,209 @@
         .upload-btn {
             background: #ff3c00;
             color: #fff;
-            padding: 14px 30px;
-            border-radius: 30px;
+            padding: 10px 20px;
+            border-radius: 20px;
             border: none;
-            font-size: 18px;
-            font-weight: 600;
             cursor: pointer;
-            transition: transform 0.3s, background 0.3s;
         }
-        .upload-btn:hover {
-            transform: scale(1.05);
-            background: #e03500;
-        }
-
-        /* Video Gallery */
         #videoGallery {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 30px;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
         }
         .video-container {
-            position: relative;
             background: #fff;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            transform: perspective(1000px) rotateX(0deg) rotateY(0deg);
-            transition: transform 0.4s, box-shadow 0.4s;
-        }
-        .video-container:hover {
-            transform: perspective(1000px) rotateX(5deg) rotateY(5deg);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 10px;
         }
         video {
             width: 100%;
             height: 200px;
             object-fit: cover;
-            display: block;
         }
         .video-title {
-            padding: 15px;
-            font-size: 16px;
-            color: #1d1d1f;
-            background: #fff;
-            text-align: left;
-        }
-
-        /* Footer */
-        footer {
-            background: rgba(0, 0, 0, 0.9);
-            padding: 40px 30px;
-            text-align: center;
             font-size: 14px;
-            color: #86868b;
+            color: #333;
         }
-        .footer-links a {
-            color: #d1d1d6;
-            margin: 0 15px;
-            text-decoration: none;
-            transition: color 0.3s;
+        #registerModal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
-        .footer-links a:hover {
-            color: #ff3c00;
+        .modal-content {
+            background: #1a1a1a;
+            padding: 20px;
+            border-radius: 10px;
         }
-        .subscribe-form {
-            margin-top: 20px;
-        }
-        .subscribe-form input {
+        .modal-content input {
             padding: 10px;
-            border-radius: 20px 0 0 20px;
-            border: none;
-            outline: none;
             width: 200px;
+            border-radius: 5px;
+            border: 1px solid #ff3c00;
+            background: #333;
+            color: #fff;
         }
-        .subscribe-form button {
-            padding: 10px 20px;
-            border-radius: 0 20px 20px 0;
-            border: none;
+        .modal-content button {
+            margin-top: 15px;
             background: #ff3c00;
             color: #fff;
+            padding: 10px 20px;
+            border-radius: 20px;
+            border: none;
             cursor: pointer;
-            transition: background 0.3s;
-        }
-        .subscribe-form button:hover {
-            background: #e03500;
         }
     </style>
 </head>
 <body>
-    <canvas id="particleCanvas"></canvas>
-    <header>
-        <nav>
-            <a href="#" class="logo">CoD Vault</a>
-            <div>
-                <a href="#">Home</a>
-                <a href="#">Vault</a>
-                <a href="#">Upload</a>
-                <a href="#">Community</a>
-            </div>
-        </nav>
-    </header>
+    <h1>Call of Duty Video Vault</h1>
+    <div id="userInfo"></div>
+    <div id="uploadSection">
+        <input type="file" id="videoInput" accept="video/*">
+        <button class="upload-btn" onclick="document.getElementById('videoInput').click()">Subir Video</button>
+    </div>
+    <div id="videoGallery"></div>
 
-    <main>
-        <h1>Call of Duty Video Vault</h1>
-        <p class="subtitle">Guarda tus momentos épicos. Comparte tu legado. Domina la galería.</p>
-
-        <div id="uploadSection">
-            <div id="dropZone">
-                <input type="file" id="videoInput" accept="video/*" multiple>
-                <p>Arrastra tus videos aquí o</p>
-                <button class="upload-btn" onclick="document.getElementById('videoInput').click()">Sube tus jugadas</button>
-            </div>
+    <div id="registerModal">
+        <div class="modal-content">
+            <h2>Elige tu nombre</h2>
+            <input type="text" id="usernameInput" placeholder="Tu nombre aquí" maxlength="20">
+            <button onclick="registerUser()">Confirmar</button>
         </div>
+    </div>
 
-        <div id="videoGallery"></div>
-    </main>
-
-    <footer>
-        <div class="footer-links">
-            <a href="#">Términos</a>
-            <a href="#">Privacidad</a>
-            <a href="#">Soporte</a>
-            <a href="#">Acerca de</a>
-        </div>
-        <div class="subscribe-form">
-            <input type="email" placeholder="Suscríbete a las novedades">
-            <button>Suscribir</button>
-        </div>
-        <p>© 2025 CoD Video Vault. Built for the warriors.</p>
-    </footer>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-storage.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
 
     <script>
-        // Particles Background
-        const canvas = document.getElementById('particleCanvas');
-        const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        // Configuración de Firebase con tus credenciales
+        const firebaseConfig = {
+            apiKey: "AIzaSyBB5LutDcu6n0XVvopU3qLUyuKHNK6NJc4",
+            authDomain: "cod-clips-by-pepiks.firebaseapp.com",
+            projectId: "cod-clips-by-pepiks",
+            storageBucket: "cod-clips-by-pepiks.firebasestorage.app",
+            messagingSenderId: "112441242392",
+            appId: "1:112441242392:web:9d0388b19fd9ff6a24646d"
+        };
 
-        class Particle {
-            constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.vx = (Math.random() - 0.5) * 2;
-                this.vy = (Math.random() - 0.5) * 2;
-                this.radius = 2;
-            }
-            update() {
-                this.x += this.vx;
-                this.y += this.vy;
-                if (this.x < 0 || this.x > canvas.width) this.vx = -this.vx;
-                if (this.y < 0 || this.y > canvas.height) this.vy = -this.vy;
-            }
-            draw() {
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-                ctx.fillStyle = 'rgba(255, 60, 0, 0.5)';
-                ctx.fill();
-            }
-        }
+        // Inicializar Firebase
+        firebase.initializeApp(firebaseConfig);
+        const storage = firebase.storage();
+        const db = firebase.firestore();
 
-        const particles = Array.from({ length: 50 }, () => new Particle());
-        function animateParticles() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach(p => {
-                p.update();
-                p.draw();
-            });
-            requestAnimationFrame(animateParticles);
-        }
-        animateParticles();
-
-        // Video Upload Logic
+        const uploadSection = document.getElementById('uploadSection');
         const videoInput = document.getElementById('videoInput');
-        const dropZone = document.getElementById('dropZone');
         const videoGallery = document.getElementById('videoGallery');
+        const registerModal = document.getElementById('registerModal');
+        const usernameInput = document.getElementById('usernameInput');
+        const userInfo = document.getElementById('userInfo');
+        let userIP = '';
 
-        dropZone.addEventListener('dragover', e => {
-            e.preventDefault();
-            dropZone.classList.add('dragover');
-        });
-        dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
-        dropZone.addEventListener('drop', e => {
-            e.preventDefault();
-            dropZone.classList.remove('dragover');
-            handleFiles(e.dataTransfer.files);
-        });
-        videoInput.addEventListener('change', e => handleFiles(e.target.files));
+        fetch('https://api.ipify.org?format=json')
+            .then(response => response.json())
+            .then(data => {
+                userIP = data.ip;
+                checkUser();
+                loadVideos();
+            })
+            .catch(() => {
+                userIP = 'unknown';
+                checkUser();
+                loadVideos();
+            });
 
-        function handleFiles(files) {
-            for (let i = 0; i < files.length; i++) {
-                const file = files[i];
-                if (file.type.startsWith('video/')) {
-                    const videoURL = URL.createObjectURL(file);
-                    const videoContainer = document.createElement('div');
-                    videoContainer.className = 'video-container';
-
-                    const videoElement = document.createElement('video');
-                    videoElement.src = videoURL;
-                    videoElement.controls = true;
-                    videoElement.preload = 'metadata';
-
-                    const videoTitle = document.createElement('div');
-                    videoTitle.className = 'video-title';
-                    videoTitle.textContent = file.name;
-
-                    videoContainer.appendChild(videoElement);
-                    videoContainer.appendChild(videoTitle);
-                    videoGallery.appendChild(videoContainer);
-                } else {
-                    alert(`"${file.name}" no es un video válido.`);
-                }
+        function checkUser() {
+            const storedUser = localStorage.getItem('codUser_' + userIP);
+            if (storedUser) {
+                registerModal.style.display = 'none';
+                uploadSection.style.display = 'block';
+                userInfo.textContent = `Bienvenido, ${storedUser}`;
+            } else {
+                registerModal.style.display = 'flex';
             }
+        }
+
+        function registerUser() {
+            const username = usernameInput.value.trim();
+            if (username && username.length >= 3) {
+                localStorage.setItem('codUser_' + userIP, username);
+                registerModal.style.display = 'none';
+                uploadSection.style.display = 'block';
+                userInfo.textContent = `Bienvenido, ${username}`;
+            } else {
+                alert('Ingresa un nombre válido (mínimo 3 caracteres).');
+            }
+        }
+
+        videoInput.addEventListener('change', function(event) {
+            const username = localStorage.getItem('codUser_' + userIP);
+            if (!username) {
+                alert('Regístrate primero.');
+                return;
+            }
+
+            const file = event.target.files[0];
+            if (file && file.type.startsWith('video/')) {
+                const storageRef = storage.ref(`videos/${username}/${Date.now()}_${file.name}`);
+                const uploadTask = storageRef.put(file);
+
+                uploadTask.on('state_changed',
+                    () => {
+                        // Progreso (opcional)
+                    },
+                    (error) => {
+                        alert('Error al subir: ' + error.message);
+                    },
+                    () => {
+                        uploadTask.snapshot.ref.getDownloadURL().then(url => {
+                            const videoData = {
+                                name: file.name,
+                                url: url,
+                                user: username,
+                                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                            };
+                            db.collection('videos').add(videoData);
+                        });
+                    }
+                );
+            } else {
+                alert('Por favor, selecciona un video válido.');
+            }
+        });
+
+        function loadVideos() {
+            db.collection('videos').orderBy('timestamp', 'desc').onSnapshot(snapshot => {
+                videoGallery.innerHTML = '';
+                snapshot.forEach(doc => {
+                    const videoData = doc.data();
+                    addVideoToGallery(videoData);
+                });
+            });
+        }
+
+        function addVideoToGallery(videoData) {
+            const videoContainer = document.createElement('div');
+            videoContainer.className = 'video-container';
+
+            const videoElement = document.createElement('video');
+            videoElement.src = videoData.url;
+            videoElement.controls = true;
+
+            const videoTitle = document.createElement('div');
+            videoTitle.className = 'video-title';
+            videoTitle.textContent = `${videoData.name} - ${videoData.user}`;
+
+            videoContainer.appendChild(videoElement);
+            videoContainer.appendChild(videoTitle);
+            videoGallery.appendChild(videoContainer);
         }
     </script>
 </body>
