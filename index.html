@@ -140,46 +140,37 @@
         const registerModal = document.getElementById('registerModal');
         const usernameInput = document.getElementById('usernameInput');
         const userInfo = document.getElementById('userInfo');
-        let userIP = '';
 
-        fetch('https://api.ipify.org?format=json')
-            .then(response => response.json())
-            .then(data => {
-                userIP = data.ip;
-                checkUser();
-                loadVideos();
-            })
-            .catch(() => {
-                userIP = 'unknown';
-                checkUser();
-                loadVideos();
-            });
-
+        // Verificar si el usuario está registrado (sin IP)
         function checkUser() {
-            const storedUser = localStorage.getItem('codUser_' + userIP);
+            const storedUser = localStorage.getItem('codUser');
             if (storedUser) {
                 registerModal.style.display = 'none';
                 uploadSection.style.display = 'block';
                 userInfo.textContent = `Bienvenido, ${storedUser}`;
+                loadVideos();
             } else {
                 registerModal.style.display = 'flex';
             }
         }
 
+        // Registrar usuario (sin IP)
         function registerUser() {
             const username = usernameInput.value.trim();
             if (username && username.length >= 3) {
-                localStorage.setItem('codUser_' + userIP, username);
+                localStorage.setItem('codUser', username);
                 registerModal.style.display = 'none';
                 uploadSection.style.display = 'block';
                 userInfo.textContent = `Bienvenido, ${username}`;
+                loadVideos();
             } else {
                 alert('Ingresa un nombre válido (mínimo 3 caracteres).');
             }
         }
 
+        // Subir video a Firebase
         videoInput.addEventListener('change', function(event) {
-            const username = localStorage.getItem('codUser_' + userIP);
+            const username = localStorage.getItem('codUser');
             if (!username) {
                 alert('Regístrate primero.');
                 return;
@@ -214,6 +205,7 @@
             }
         });
 
+        // Cargar todos los videos de Firebase
         function loadVideos() {
             db.collection('videos').orderBy('timestamp', 'desc').onSnapshot(snapshot => {
                 videoGallery.innerHTML = '';
@@ -224,6 +216,7 @@
             });
         }
 
+        // Añadir video a la galería
         function addVideoToGallery(videoData) {
             const videoContainer = document.createElement('div');
             videoContainer.className = 'video-container';
@@ -240,6 +233,9 @@
             videoContainer.appendChild(videoTitle);
             videoGallery.appendChild(videoContainer);
         }
+
+        // Llama a checkUser al cargar la página
+        checkUser();
     </script>
 </body>
 </html>
