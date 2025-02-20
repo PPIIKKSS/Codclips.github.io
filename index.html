@@ -21,7 +21,6 @@
         header {
             width: 100%;
             background: rgba(0, 0, 0, 0.9); /* Negro más oscuro para el header */
-            backdrop-filter: blur(10px);
             padding: 15px 0;
             text-align: center;
         }
@@ -176,14 +175,14 @@
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
 
     <script>
-        // Configuración de Firebase con tus credenciales
+        // Configuración de Firebase con tus credenciales exactas
         const firebaseConfig = {
-            apiKey: "AIzaSyBB5LutDcu6n0XVvopU3qLUyuKHNK6NJc4",
-            authDomain: "cod-clips-by-pepiks.firebaseapp.com",
-            projectId: "cod-clips-by-pepiks",
-            storageBucket: "cod-clips-by-pepiks.firebasestorage.app",
-            messagingSenderId: "112441242392",
-            appId: "1:112441242392:web:9d0388b19fd9ff6a24646d"
+            apiKey: "AIzaSyA8sB5slUtu8hWvQpl3gUyU8KRNSNj4",
+            authDomain: "cod-clips-by-pepkis.firebaseapp.com",
+            projectId: "cod-clips-by-pepkis",
+            storageBucket: "cod-clips-by-pepkis.appspot.com",
+            messagingSenderId: "112414242392",
+            appId: "1:112414242392:web:d8b38b19f9ff6a24646d"
         };
 
         // Inicializar Firebase
@@ -211,17 +210,20 @@
             }
         }
 
-        // Registrar usuario (sin IP)
+        // Registrar usuario (sin IP) con depuración
         function registerUser() {
             const username = usernameInput.value.trim();
+            console.log('Intentando registrar:', username); // Depuración
             if (username && username.length >= 3) {
                 localStorage.setItem('codUser', username);
                 registerModal.style.display = 'none';
                 uploadSection.style.display = 'block';
                 userInfo.textContent = `Bienvenido, ${username}`;
                 loadVideos();
+                console.log('Registro exitoso para:', username); // Depuración
             } else {
                 alert('Ingresa un nombre válido (mínimo 3 caracteres).');
+                console.log('Error: Nombre inválido'); // Depuración
             }
         }
 
